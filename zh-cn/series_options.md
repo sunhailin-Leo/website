@@ -210,6 +210,18 @@ class LabelOpts(
     # }
     formatter: Optional[str] = None,
     
+    # 文字块背景色。可以是直接的颜色值，例如：'#123234', 'red', 'rgba(0,23,11,0.3)'
+    background_color: Optional[str] = None,
+    
+    # 文字块边框颜色
+    border_color: Optional[str] = None,
+    
+    # 文字块边框宽度
+    border_width: Optional[Numeric] = None,
+    
+    # 文字块的圆角
+    border_radius: Union[Numeric, Sequence, None] = None,
+    
     # 在 rich 里面，可以自定义富文本样式。利用富文本样式，可以在标签中做出非常丰富的效果
     # 具体配置可以参考一下 https://www.echartsjs.com/tutorial.html#%E5%AF%8C%E6%96%87%E6%9C%AC%E6%A0%87%E7%AD%BE
     rich: Optional[dict] = None,
