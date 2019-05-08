@@ -79,8 +79,12 @@ def add_yaxis(
     # 数据堆叠，同个类目轴上系列配置相同的　stack　值可以堆叠放置。
     stack: Optional[str] = None,
 
-    # 同一系列的柱间距离，默认为类目间距的20%，可设固定值
+    # 同一系列的柱间距离，默认为类目间距的 20%，可设固定值
     category_gap: Union[Numeric, str] = "20%",
+
+    # 不同系列的柱间距离，为百分比（如 '30%'，表示柱子宽度的 30%）。
+    # 如果想要两个系列的柱子重叠，可以设置 gap 为 '-100%'。这在用柱子做背景的时候有用。
+    gap: Optional[str] = None,
 
     # 标签配置项，参考 `series_options.LabelOpts`
     label_opts: Union[opts.LabelOpts, dict] = opts.LabelOpts(),
@@ -155,6 +159,23 @@ def bar_toolbox() -> Bar:
 ```
 ![](https://user-images.githubusercontent.com/19553554/56866240-816a7b80-6a09-11e9-9fce-1443541b36dd.png)
 
+> Bar-不同系列柱间距离
+
+```python
+def bar_gap() -> Bar:
+    c = (
+        Bar()
+        .add_xaxis(Faker.choose())
+        .add_yaxis("商家A", Faker.values(), gap="0%")
+        .add_yaxis("商家B", Faker.values(), gap="0%")
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="Bar-不同系列柱间距离"),
+        )
+    )
+    return c
+```
+![](https://user-images.githubusercontent.com/19553554/57316521-955c5e80-7128-11e9-9f95-adf413015472.png)
+
 > Bar-Y 轴 formatter
 
 ```python
@@ -174,6 +195,25 @@ def bar_yaxis_formatter() -> Bar:
     return c
 ```
 ![](https://user-images.githubusercontent.com/19553554/57181491-1ae0d400-6ec7-11e9-9db5-6e07b0c9f431.png)
+
+> Bar-XY 轴名称
+
+```python
+def bar_xyaxis_name() -> Bar:
+    c = (
+        Bar()
+        .add_xaxis(Faker.choose())
+        .add_yaxis("商家A", Faker.values())
+        .add_yaxis("商家B", Faker.values())
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="Bar-XY 轴名称"),
+            yaxis_opts=opts.AxisOpts(name="我是 Y 轴"),
+            xaxis_opts=opts.AxisOpts(name="我是 X 轴"),
+        )
+    )
+    return c
+```
+![](https://user-images.githubusercontent.com/19553554/57306732-edd63080-7115-11e9-8bde-b207c4e6f785.png)
 
 > Bar-翻转 XY 轴
 
@@ -841,6 +881,30 @@ def kline_datazoom_slider() -> Kline:
     return c
 ```
 ![](https://user-images.githubusercontent.com/19553554/55603567-d960ea00-579d-11e9-9368-2fa6f9c28cad.gif)
+
+> Kline-DataZoom-slider-Position（缩小 sliderbar）
+
+```python
+def kline_datazoom_slider_position() -> Kline:
+    c = (
+        Kline()
+        .add_xaxis(["2017/7/{}".format(i + 1) for i in range(31)])
+        .add_yaxis("kline", data)
+        .set_global_opts(
+            xaxis_opts=opts.AxisOpts(is_scale=True),
+            yaxis_opts=opts.AxisOpts(
+                is_scale=True,
+                splitarea_opts=opts.SplitAreaOpts(
+                    is_show=True, areastyle_opts=opts.AreaStyleOpts(opacity=1)
+                ),
+            ),
+            datazoom_opts=[opts.DataZoomOpts(pos_bottom="-2%")],
+            title_opts=opts.TitleOpts(title="Kline-DataZoom-slider-Position"),
+        )
+    )
+    return c
+```
+![](https://user-images.githubusercontent.com/19553554/57308413-e5cbc000-7118-11e9-932d-c0dd5356b1be.png)
 
 > Kline-ItemStyle
 
